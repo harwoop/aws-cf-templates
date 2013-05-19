@@ -53,21 +53,28 @@ node 'stingray' {
     before  => Class['stingray'],
   }  
 
-  firewall { '102 allow Stingray application access':
+  firewall { '102 allow Stingray rest api access':
+    port   => 9070,
+    proto  => 'tcp',
+    action => 'accept',
+    before  => Class['stingray'],
+  }  
+
+  firewall { '103 allow Stingray application access':
     port   => 9080,
     proto  => 'tcp',
     action => 'accept',
     before  => Class['stingray'],
   }    
 
-  firewall { '103 allow Stingray application access':
+  firewall { '104 allow Stingray application access':
     port   => 9080,
     proto  => 'udp',
     action => 'accept',
     before  => Class['stingray'],
   }    
 
-  firewall { '104 allow access to custom site.':
+  firewall { '105 allow access to custom site.':
     port   => 8000,
     proto  => 'tcp',
     action => 'accept',

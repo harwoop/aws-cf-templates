@@ -26,7 +26,15 @@ Vagrant.configure("2") do |config|
       v.customize ["modifyvm", :id, "--memory", "2048" ]
     end
     stingray.vm.provision :puppet,
-      :options => ["--verbose", "--debug", "--summarize"],
+      :options => ["--verbose", "--summarize"],
+      :facter => { 
+        "fqdn"   => "stingray",
+      } do |puppet|
+        puppet.manifests_path = "puppet/manifests"
+        puppet.module_path = "puppet/modules"
+        puppet.manifest_file = "stingray.pp"
+    end
+    stingray.vm.provision :puppet,
       :facter => { 
         "fqdn"   => "stingray",
       } do |puppet|

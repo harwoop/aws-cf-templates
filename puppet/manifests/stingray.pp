@@ -44,35 +44,35 @@ node 'stingray' {
     proto  => 'tcp',
     action => 'accept',
     before  => Class['stingray'],
-  }  
+  }
 
   firewall { '101 allow Stingray unicast access':
     port   => 9090,
     proto  => 'udp',
     action => 'accept',
     before  => Class['stingray'],
-  }  
+  }
 
   firewall { '102 allow Stingray rest api access':
     port   => 9070,
     proto  => 'tcp',
     action => 'accept',
     before  => Class['stingray'],
-  }  
+  }
 
   firewall { '103 allow Stingray application access':
     port   => 9080,
     proto  => 'tcp',
     action => 'accept',
     before  => Class['stingray'],
-  }    
+  }
 
   firewall { '104 allow Stingray application access':
     port   => 9080,
     proto  => 'udp',
     action => 'accept',
     before  => Class['stingray'],
-  }    
+  }
 
   firewall { '105 allow access to custom site.':
     port   => 8000,
@@ -89,12 +89,13 @@ node 'stingray' {
 
   class {'stingray':
     accept_license => 'accept',
+    version        => '9.2',
     require        => Package['jdk'],
   }
 
   stingray::settings { 'My Settings':
     controlallow => 'all',
-    require        => Class['stingray'],
+    require      => Class['stingray'],
   }
 
   stingray::new_cluster{'new_cluster':
@@ -109,12 +110,11 @@ node 'stingray' {
   }
 
   stingray::pool { 'FirstSite-Pool':
-##    nodes       => ['10.0.0.21:80', '10.0.0.22:80'],
     nodes       => ['10.0.0.21:80', ],
     algorithm   => 'perceptive',
     persistence => 'FirstSite_Persistence',
     monitors    => 'FirstSite_HTTP_Monitor',
-    require     =>  Class['stingray'],
+    require     => Class['stingray'],
   }
 
   stingray::virtual_server { 'FirstSite_Virtual_Server':
@@ -127,12 +127,14 @@ node 'stingray' {
   }
 
   stingray::persistence{'FirstSite_Persistence':
-    type => 'Transparent session affinity'
+    type     => 'Transparent session affinity',
+    require  => Class['stingray'],
   }
 
   stingray::monitor { 'FirstSite_HTTP_Monitor':
-    type       => 'HTTP',
+    type         => 'HTTP',
     status_regex => '^[234][0-9][0-9]$',
-    path       => '/'
+    path         => '/',
+    require      => Class['stingray'],
   }
 }

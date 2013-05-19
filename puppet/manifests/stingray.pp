@@ -103,7 +103,7 @@ node 'stingray' {
   }
 
   stingray::trafficipgroup { 'FirstSite_TrafficIP':
-    ipaddresses => ['10.0.2.100', ],
+    ipaddresses => ['10.0.1.100', ],
     machines    => 'stingray',
     enabled     => 'yes',
     require     => Class['stingray'],

@@ -110,7 +110,7 @@ node 'stingray' {
   }
 
   stingray::pool { 'FirstSite-Pool':
-    nodes       => ['10.0.0.21:80', ],
+    nodes       => ['10.0.0.21:80', '10.0.0.22:80' ],
     algorithm   => 'perceptive',
     persistence => 'FirstSite_Persistence',
     monitors    => 'FirstSite_HTTP_Monitor',

@@ -28,3 +28,5 @@ Icon
 
 # Vagrant images
 .vagrant
+*.sublime-project
+*.sublime-workspace

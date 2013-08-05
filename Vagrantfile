@@ -53,7 +53,6 @@ Vagrant.configure("2") do |config|
       v.customize ["modifyvm", :id, "--memory", "512" ]
     end
     webnode_01.vm.provision :puppet,
-      :options => ["--verbose", "--summarize"],
       :facter => { 
         "fqdn" => "webnode-01",
       } do |puppet|
@@ -63,22 +62,21 @@ Vagrant.configure("2") do |config|
     end
   end
 
-##  config.vm.define :webnode_02 do |webnode_02|
-##    webnode_02.vm.box = "centos-64-x64"
-##    webnode_02.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box"
-##    webnode_02.vm.network :private_network, ip: "10.0.0.22"
-##    webnode_02.vm.hostname = "webnode-02"
-##    webnode_02.vm.provider :virtualbox do |v|
-##      v.customize ["modifyvm", :id, "--memory", "512" ]
-##    end
-##    webnode_02.vm.provision :puppet,
-##      :options => ["--verbose", "--summarize"],
-##      :facter => { 
-##        "fqdn" => "webnode-02",
-##      } do |puppet|
-##        puppet.manifests_path = "puppet/manifests"
-##        puppet.module_path = "puppet/modules"
-##        puppet.manifest_file = "webnode.pp"
-##    end
-##  end
+  config.vm.define :webnode_02 do |webnode_02|
+    webnode_02.vm.box = "centos-64-x64"
+    webnode_02.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box"
+    webnode_02.vm.network :private_network, ip: "10.0.0.22"
+    webnode_02.vm.hostname = "webnode-02"
+    webnode_02.vm.provider :virtualbox do |v|
+      v.customize ["modifyvm", :id, "--memory", "512" ]
+    end
+    webnode_02.vm.provision :puppet,
+      :facter => { 
+        "fqdn" => "webnode-02",
+      } do |puppet|
+        puppet.manifests_path = "puppet/manifests"
+        puppet.module_path = "puppet/modules"
+        puppet.manifest_file = "webnode.pp"
+    end
+  end
 end
